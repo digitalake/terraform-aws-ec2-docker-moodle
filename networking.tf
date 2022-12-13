@@ -1,23 +1,28 @@
 resource "aws_vpc" "primary_vpc" {
-    cidr_block = "10.10.20.0/26"
-    enable_dns_support = true
-    enable_dns_hostnames = true
+  cidr_block           = var.vpc_cidr
+  enable_dns_support   = true
+  enable_dns_hostnames = true
 }
 
-resource "aws_subnet" "priv_sub_2a" {
-    vpc_id = aws_vpc.primary_vpc.id
-    cidr_block = "10.10.20.0/28"
-    availability_zone = "us-east-2a"  
+resource "aws_subnet" "pub_sub" {
+  vpc_id            = aws_vpc.primary_vpc.id
+  cidr_block        = var.public_subnet_cidr
+  availability_zone = var.aws_az
 }
 
-resource "aws_subnet" "priv_sub_2b" {
-    vpc_id = aws_vpc.primary_vpc.id
-    cidr_block = "10.10.20.16/28"
-    availability_zone = "us-east-2b"  
+resource "aws_internet_gateway" "gw" {
+  vpc_id = aws_vpc.primary_vpc.id
 }
 
-resource "aws_subnet" "priv_sub_2c" {
-    vpc_id = aws_vpc.primary_vpc.id
-    cidr_block = "10.10.20.32/28"
-    avaiavailability_zone = "us-east-2c" 
+resource "aws_route_table" "public_rt" {
+  vpc_id = aws_vpc.primary_vpc.id
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.gw.id
+  }
+}
+
+resource "aws_route_table_association" "pub-rt-assoc" {
+  subnet_id      = aws_subnet.pub_sub.id
+  route_table_id = aws_route_table.public_rt.id
 }
