@@ -1,5 +1,5 @@
 # Define the security group for the EC2 Instance
-resource "aws_security_group" "aws-vm-sg" {
+resource "aws_security_group" "vm-sg" {
   name        = "vm-sg"
   description = "Allowing incoming connections"
   vpc_id      = aws_vpc.primary_vpc.id
