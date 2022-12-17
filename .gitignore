@@ -4,3 +4,5 @@
 *.tfstate
 *.tfstate.backup
 *.lock.hcl
+compose-env/
+*.tfvars

@@ -1,8 +1,9 @@
-#! /bin/bash
+#!/bin/bash
 #Update the apt package index and install 
 #packages to allow apt to use a repository over HTTPS
+id
 sudo apt-get update
-sudo apt-get install \
+sudo apt-get install -y \
     ca-certificates \
     curl \
     gnupg \
@@ -17,7 +18,8 @@ echo \
 #Update the apt package index:
 sudo apt-get update
 #Install Docker Engine, containerd, and Docker Compose
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose
+sudo usermod -a -G docker ubuntu
 #Verify that the Docker Engine installation is successful by running the hello-world image
-sudo docker run --name hello-world-container hello-world && sudo docker rm hello-world-container
- 
+#Remove "successful-installing-checking-container" if docker works properly 
+#sudo docker run --name hello-world-container hello-world && sudo docker rm hello-world-container
